@@ -50,7 +50,6 @@ function renderUserList  ()  {
   $("#usersList").html(`${createUserList()}`)
 
 };
-$(() => {
   $.ajax({
     methode: "GET",
     url: "https://reqres.in/api/users?page=1",
@@ -85,4 +84,3 @@ $(() => {
   
   renderUserList();
   pagination();
-});
