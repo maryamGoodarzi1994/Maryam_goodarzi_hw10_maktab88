@@ -1,9 +1,10 @@
 const saveUserInfo = (id) => {
   const user = userList.find((user) => user.id == id);
-
+console.log(user.id);
   const inputs = document.querySelectorAll(".updateInputs");
   for (let input of inputs) {
-    user["email"]
+    console.log(user[input.id]);
+
     if (input.value.trim() === "") return alert("invalid input");
     if (input.id =="id") {
       user[input.id] = Number(input.value);
@@ -13,13 +14,19 @@ const saveUserInfo = (id) => {
   }
   renderUserList()
 };
+const deleteUserInfo = (id)=> {
+  userList = userList.filter((user) => user.id !== id)
+  renderUserList()
+
+}
 
 function editUserInfo(id) {
   let userInfo = document.getElementById("user-info");
-  const targetUser = userList.find((user) => user.id == id);
+  const user = userList.find((user) => user.id == id);
   userInfo.innerHTML = Object.keys(targetUser)
     .map((property) => {
-      if (property === "uid") {
+           if (property == "id") {
+      
         return `<input  type="text" id="${property}" class=" form-control updateInputs m-2 p-2" value="${user[property]}" placeholder="${property}" disabled/><br>`;
       }
       return `<input  type="text" id="${property}" class=" form-control updateInputs m-2 p-2" value="${user[property]}" placeholder="${property}"/><br>`;
@@ -29,11 +36,10 @@ function editUserInfo(id) {
   userInfo.innerHTML += ` <button
                 onclick="saveUserInfo(${targetUser.id})" 
                 class="btn btn-success rounded-3 w-100"
-                data-bs-toggle="modal" data-bs-target="#userProfileModal">
+                 >
                 save
             </button>`;
 }
-const deleteUserInfo = (id) => {};
 const generateUserInfo = function ({
   id,
   avatar,
@@ -52,14 +58,12 @@ const generateUserInfo = function ({
             
             <button
                 onclick="editUserInfo(${id})" 
-                class="btn btn-warning mS rounded-3 w-100"
-                data-bs-toggle="modal" data-bs-target="#userProfileModal">
+                class="btn btn-warning mS rounded-3 w-100">
                 edit
             </button>
             <button
                 onclick="deleteUserInfo(${id})" 
-                class="btn btn-danger rounded-3 w-100"
-                data-bs-toggle="modal" data-bs-target="#userProfileModal">
+                class="btn btn-danger rounded-3 w-100">
                 delete
             </button>
         </div>
@@ -69,4 +73,5 @@ const generateUserInfo = function ({
 };
 const id = window.location.search.split("=")[1];
 const targetUser = userList.find((user) => user.id == id);
+console.log(userList);
 document.getElementById("user-info").innerHTML = generateUserInfo(targetUser);
